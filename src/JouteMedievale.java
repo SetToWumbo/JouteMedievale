@@ -1,6 +1,8 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class JouteMedievale {
+   public static Random random = new Random();
     public enum Choix {
         OUI("oui"),
         NON("non");
@@ -20,7 +22,13 @@ public class JouteMedievale {
         joueur2.setChevalier(choisirChevalier(joueur2.getNomJoueur()));
         System.out.println();
         System.out.println("Les deux chevaliers s'affrontent...");
+        Chevalier gagnant = null;
+        while(gagnant == null){
+            
 
+
+
+        }
 
 
 
@@ -28,7 +36,21 @@ public class JouteMedievale {
 
 
 
-
+    public static Chevalier rollForInitiative(Chevalier joueur1, Chevalier joueur2){
+        int chevalier1 = random.nextInt(joueur1.getInitiative() + 1);
+        int chevalier2 = random.nextInt(joueur2.getInitiative() + 1);
+        Chevalier initiative;
+        if (chevalier1 == chevalier2){
+            if(joueur1.getInitiative() == joueur2.getInitiative()){
+                initiative = (random.nextBoolean())? joueur1 : joueur2;
+            }else{
+                initiative = (joueur1.getInitiative() > joueur2.getInitiative()) ? joueur1 : joueur2;
+            }
+        } else {
+                initiative = (chevalier1 > chevalier2) ? joueur1 : joueur2;
+        }
+        return initiative;
+    }
     public static Chevalier choisirChevalier(String nom) {
         Scanner scanner = new Scanner(System.in);
         Choix choix = null;
@@ -51,12 +73,12 @@ public class JouteMedievale {
                     System.out.println(chevalier.getNomSeigneur() + " est fier d'avoir été choisi!");
                     return chevalier;
                 case NON:
-                    System.out.println(chevalier.getNomSeigneur() + " est humilié par votre refus.");
+                    System.out.println(chevalier.getNomSeigneur() + " est humilié de votre refus.");
             }
         }
         Chevalier chevalier = GenerateurChevaliers.creer();
         System.out.println("\nLe prêtre du village intervient en vous assignant un chevalier par la Bonté Divine.\n"
-                + chevalier.getNomSeigneur() + " sera votre chevalier pour cette partie : " + chevalier.toString());
+                + chevalier.getNomSeigneur() + " sera votre chevalier pour cette joute : " + chevalier.toString());
         return chevalier;
     }
     public static Choix validerChoix(String choix) {
