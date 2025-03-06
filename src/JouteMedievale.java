@@ -15,8 +15,10 @@ public class JouteMedievale {
         Joueur joueur1 = new Joueur();
         Joueur joueur2 = new Joueur();
 
-        joueur1.setChevalier(choisirChevalier());
-        joueur2.setChevalier(choisirChevalier());
+        joueur1.setChevalier(choisirChevalier(joueur1.getNomJoueur()));
+        System.out.println();
+        joueur2.setChevalier(choisirChevalier(joueur2.getNomJoueur()));
+        System.out.println();
         System.out.println("Les deux chevaliers s'affrontent...");
 
 
@@ -26,28 +28,21 @@ public class JouteMedievale {
 
 
 
-    public static Choix validerChoix(String choix) {
-        for (Choix option : Choix.values()) {
-            if (choix.equals(option.choix)) {
-                return option;
-            }
-        }
-        throw new IllegalArgumentException("Choix invalide");
-    }
-    public static Chevalier choisirChevalier() {
+
+    public static Chevalier choisirChevalier(String nom) {
         Scanner scanner = new Scanner(System.in);
         Choix choix = null;
         for (int i = 0; i < 4; i++) {
             Chevalier chevalier = GenerateurChevaliers.creer();
-            System.out.print(chevalier.getNomSeigneur() + " se présente : " + chevalier.toString());
+            System.out.println(chevalier.getNomSeigneur() + " s'avance : " + chevalier.toString());
             String saisie;
             do{
                 try {
-                    System.out.print("Ce chevalier se montre-t-il digne de votre confiance? [oui/non] : ");
+                    System.out.print(nom + " : Ce chevalier se montre-t-il digne de votre confiance? [oui/non] : ");
                     saisie = scanner.nextLine().toLowerCase().trim();
                     choix = validerChoix(saisie);
                 } catch (IllegalArgumentException e) {
-
+                    choix = null;
                 }
             }while(choix == null);
 
@@ -60,9 +55,17 @@ public class JouteMedievale {
             }
         }
         Chevalier chevalier = GenerateurChevaliers.creer();
-        System.out.print("Le prêtre du village intervient en vous assignant un chevalier par la Bonté Divine.\n"
-                + chevalier.getNomSeigneur() + " sera votre chevalier pour cette joute : " + chevalier.toString());
+        System.out.println("\nLe prêtre du village intervient en vous assignant un chevalier par la Bonté Divine.\n"
+                + chevalier.getNomSeigneur() + " sera votre chevalier pour cette partie : " + chevalier.toString());
         return chevalier;
+    }
+    public static Choix validerChoix(String choix) {
+        for (Choix option : Choix.values()) {
+            if (choix.equals(option.choix)) {
+                return option;
+            }
+        }
+        throw new IllegalArgumentException("Choix invalide");
     }
 
 }
